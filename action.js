@@ -33,7 +33,7 @@
             if(pos!==-1){
                 arr.splice(pos,1);
             }
-            console.log(arr,title,desc);
+//             console.log(arr,title,desc);
             localStorage.setItem(key,JSON.stringify(arr));
     }
 
