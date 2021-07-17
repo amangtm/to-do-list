@@ -18,6 +18,10 @@
 
     function addElementInArray(key,title,desc){   // add elements in localStorage array 
         let arr=JSON.parse(localStorage.getItem(key)); 
+        //  console.log(arr,title,desc);
+        if(arr==null){
+            arr=[];
+        }
         arr.push({'title':title, 'desc':desc});
         localStorage.setItem(key,JSON.stringify(arr));
     }
@@ -96,7 +100,7 @@
             let cardTitle=document.getElementById(cardId).childNodes[1].innerText;
             let cardDesc=document.getElementById(cardId).childNodes[2].innerText;
             removeElementInArray('todo',cardTitle,cardDesc); // update todo array 
-            console.log(JSON.parse(localStorage.getItem('todo')),cardTitle,cardDesc);
+            // console.log(JSON.parse(localStorage.getItem('todo')),cardTitle,cardDesc);
             document.getElementById(cardId).remove();
     }
     
@@ -106,10 +110,11 @@
 
     form.addEventListener('submit',function (event){  // CREAT TASK CARD
         const card=createCardElement(form.elements[0].value, form.elements[1].value);
-
         addElementInArray('todo',form.elements[0].value,form.elements[1].value)
+        // addElementInArray('todo','Task1','This is about Task1')
         cardContainer.append(card);
         event.preventDefault();
+        // console.log('Submit button clicked')
     });
     
     // create Modal for edit Card
@@ -273,20 +278,26 @@
     //localStorage.setItem('todo',JSON.stringify(todoArr));
     let cardData=JSON.parse(localStorage.getItem('todo'));
     //console.log(cardData);
-    cardData.map(({title,desc}) => {
-        let card=createCardElement(title,desc);
-        cardContainer.append(card);
-    })
+    if(cardData){
+        cardData.map(({title,desc}) => {
+            let card=createCardElement(title,desc);
+            cardContainer.append(card);
+        })
+    }
+   
 
     // Create done item using saved data
     //let doneArr=[{title:'Task3', desc:'This is about completed task3'},{title:'Task4', desc:'This is about completed task4'}];
     //localStorage.setItem('done',JSON.stringify(doneArr));
     let itemData=JSON.parse(localStorage.getItem('done'));
     // console.log(itemData);
-    itemData.map(({title,desc},index) => {
-        let cardId=`item${index}`;
-        // console.log(cardId);
-        let item=createItemElement(cardId,title,desc);
-        itemListWrapper.append(item);
-    })
+    if(itemData){
+        itemData.map(({title,desc},index) => {
+            let cardId=`item${index}`;
+            // console.log(cardId);
+            let item=createItemElement(cardId,title,desc);
+            itemListWrapper.append(item);
+        })
+    }
+   
 
